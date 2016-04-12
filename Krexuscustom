@@ -1,0 +1,22 @@
+# !/bin/sh
+
+echo KREXUS WITH UBER KERNEL TWEAKS
+DATE=$(date +'%y%m%d');
+STOCKZIPPATH=/media/dekefake/AndroidSource/krexus/out/target/product/hammerhead
+TWEAKEDZIPCONTENT=/media/dekefake/AndroidSource/Edited-zip
+ZIPNAME=krexus_mm-$DATE-hammerhead
+ZIPDEKEFAKE=krexus_mm-$DATE-dekefake-hammerhead
+
+mkdir $STOCKZIPPATH/$ZIPNAME
+
+unzip $STOCKZIPPATH/$ZIPNAME.zip -d $STOCKZIPPATH/$ZIPNAME
+rm -rf $ZIPNAME/META-INF
+cp -rf $TWEAKEDZIPCONTENT/* $STOCKZIPPATH/$ZIPNAME
+
+
+cd $STOCKZIPPATH/$ZIPNAME
+rm $STOCKZIPPATH/*.zip
+zip -r $STOCKZIPPATH/$ZIPDEKEFAKE.zip .
+cd ..
+rm -rf $STOCKZIPPATH/$ZIPNAME
+

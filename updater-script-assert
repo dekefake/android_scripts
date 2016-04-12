@@ -1,0 +1,1 @@
+assert(getprop("ro.product.device") == "hammerhead" || getprop("ro.build.product") == "hammerhead" || getprop("ro.product.board") == "hammerhead" || getprop("ro.product.device") == "hammerheadcaf" || getprop("ro.build.product") == "hammerheadcaf" || getprop("ro.product.board") == "hammerheadcaf");

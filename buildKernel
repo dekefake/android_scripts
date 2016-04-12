@@ -1,0 +1,55 @@
+# !/bin/sh
+
+echo BUILDING UBER FOR HAMMERHEAD
+DATE=20$(date +'%y%m%d');
+echo TODAY\'S DATE : $DATE. THIS DATE WILL BE USED TO NAME BUILD
+echo EXPORTING PATHS FOR TOOLCHAINS, ETC...
+
+# Builder name on $KERNEL/scripts/mkcompile_h
+
+cd '/media/dekefake/AndroidSource/krexus/kernel/lge/hammerhead'
+
+export PATH=/media/dekefake/AndroidSource/Toolchains/arm-eabi-5.3/bin:$PATH
+export ARCH=arm
+export SUBARCH=arm
+export CROSS_COMPILE=arm-eabi-
+export OUT=/media/dekefake/AndroidSource/builtKernelOut
+
+echo STARTING TO BUILD HAMMERHEAD_DEFCONFIG NOW
+make uber_hammerhead_defconfig
+echo BUILDING KERNEL NOW
+read -p "Make clean ? Y/N " yn
+case $yn in
+	[Yy]* ) make clean;;
+	[Nn]* ) make;;
+	* ) echo "Please answer yes or no.";;
+esac
+make 
+
+echo BUILD FINISHED
+
+if [ -f arch/arm/boot/zImage-dtb ]; then
+	# removing old stuff
+	rm $OUT/Uber-M-Zip/kernel/zImage-dtb
+
+	# Get new built stuff
+	cp arch/arm/boot/zImage-dtb $OUT/Uber-M-Zip/kernel/zImage-dtb
+	cp arch/arm/boot/zImage-dtb /media/dekefake/AndroidSource/krexus/device/lge/hammerhead-kernel/zImage-dtb
+	cp arch/arm/boot/zImage-dtb /media/dekefake/AndroidSource/Edited-zip/kernel
+	rm arch/arm/boot/zImage-dtb
+
+	# Fixing permissions to make sure everything goes right
+
+	sudo chmod -R 777 $OUT/Uber-M-Zip/kernel/zImage-dtb
+	chmod 777 /media/dekefake/AndroidSource/krexus/device/lge/hammerhead-kernel/zImage-dtb
+	chmod 777 /media/dekefake/AndroidSource/Edited-zip/kernel/zImage-dtb
+	
+	# ziping kernel to a flashable zip
+	rm $OUT/*.zip
+	cd $OUT/Uber-M-Zip
+	zip -r ../UBER-M-N5-5.3-FrancoSound-$DATE-dekefake.zip .
+	echo ZIP MADE AT $OUT/UBER-M-N5-5.3-FrancoSound-$DATE-dekefake.zip
+else
+	echo zImage not found, maybe an error occured during build.
+fi;
+
