@@ -9,7 +9,9 @@ echo EXPORTING PATHS FOR TOOLCHAINS, ETC...
 
 cd '/media/dekefake/AndroidSource/krexus/kernel/lge/hammerhead'
 
-export PATH=/media/dekefake/AndroidSource/Toolchains/arm-eabi-5.3/bin:$PATH
+
+GCCVERSION=7.0
+export PATH=/media/dekefake/AndroidSource/Toolchains/arm-eabi-$GCCVERSION/bin:$PATH
 export ARCH=arm
 export SUBARCH=arm
 export CROSS_COMPILE=arm-eabi-
@@ -47,8 +49,8 @@ if [ -f arch/arm/boot/zImage-dtb ]; then
 	# ziping kernel to a flashable zip
 	rm $OUT/*.zip
 	cd $OUT/Uber-M-Zip
-	zip -r ../UBER-M-N5-5.3-FrancoSound-$DATE-dekefake.zip .
-	echo ZIP MADE AT $OUT/UBER-M-N5-5.3-FrancoSound-$DATE-dekefake.zip
+	zip -r ../UBER-M-N5-$GCCVERSION-FrancoSound-$DATE-dekefake.zip .
+	echo ZIP MADE AT $OUT/UBER-M-N5-$GCCVERSION-FrancoSound-$DATE-dekefake.zip
 else
 	echo zImage not found, maybe an error occured during build.
 fi;
